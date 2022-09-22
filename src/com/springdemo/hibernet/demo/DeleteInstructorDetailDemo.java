@@ -7,7 +7,7 @@ import org.hibernate.cfg.Configuration;
 import com.springdemo.hibernet.demo.entity.Instructor;
 import com.springdemo.hibernet.demo.entity.InstructorDetail;
 
-public class GetInstructorDetailDemo {
+public class DeleteInstructorDetailDemo {
 
 	public static void main(String[] args) {
 
@@ -21,14 +21,14 @@ public class GetInstructorDetailDemo {
 			session.beginTransaction();
 
 			// get the instructor details
-			int theId = 2;
+			int theId = 3;
 			InstructorDetail tempInstructorDetail = session.get(InstructorDetail.class, theId);
+			
+			//remove the bidirectional link first
+			tempInstructorDetail.getInstructor().setInstructorDetailId(null);
 
-			// print the instructor detail
-			System.out.println("Instructor Details: " + tempInstructorDetail);
-			// print associate instructor object
-			if (tempInstructorDetail != null)
-				System.out.println("Associate Instructor : " + tempInstructorDetail.getInstructor());
+			// delete Instructor Details
+			session.delete(tempInstructorDetail);
 
 			session.getTransaction().commit();
 
